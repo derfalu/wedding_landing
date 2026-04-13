@@ -6,6 +6,7 @@
 
   if (!loader) {
     document.body.classList.remove('page-loading');
+    document.body.classList.add('cover-intro-ready');
     return;
   }
 
@@ -68,6 +69,7 @@
   const hideLoader = () => {
     loader.classList.add('is-hidden');
     document.body.classList.remove('page-loading');
+    document.body.classList.add('cover-intro-ready');
     loader.addEventListener('transitionend', () => loader.remove(), { once: true });
   };
 
@@ -76,6 +78,290 @@
   const pageReady = Promise.all([waitForWindowLoad(), imagesReady, fontsReady, waitForMinimumDuration()]);
 
   Promise.race([pageReady, waitForTimeout()]).then(hideLoader);
+})();
+
+(() => {
+  const invitationSection = document.querySelector('#invitation-section');
+
+  if (!(invitationSection instanceof HTMLElement)) {
+    return;
+  }
+
+  invitationSection.classList.add('invitation-intro-enabled');
+
+  const photoContainers = Array.from(invitationSection.querySelectorAll('.invite-photo'))
+    .map((photo) => {
+      const container = photo.closest('.absolute-container');
+
+      if (!(container instanceof HTMLElement)) {
+        return null;
+      }
+
+      if (photo.classList.contains('invite-photo--bride')) {
+        container.classList.add('invitation-photo-intro-bride');
+      }
+
+      if (photo.classList.contains('invite-photo--groom')) {
+        container.classList.add('invitation-photo-intro-groom');
+      }
+
+      return container;
+    })
+    .filter((container) => container instanceof HTMLElement);
+
+  photoContainers.forEach((container) => {
+    container.classList.add('invitation-photo-intro-enabled');
+  });
+
+  const revealInvitation = () => {
+    invitationSection.classList.add('invitation-intro-visible');
+  };
+
+  const revealPhotos = () => {
+    photoContainers.forEach((container) => {
+      container.classList.add('invitation-photo-intro-visible');
+    });
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    revealInvitation();
+    revealPhotos();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) {
+        return;
+      }
+
+      revealInvitation();
+      observer.disconnect();
+    },
+    {
+      threshold: 0.22,
+      rootMargin: '0px 0px -8% 0px',
+    }
+  );
+
+  observer.observe(invitationSection);
+
+  const photoObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) {
+          return;
+        }
+
+        entry.target.classList.add('invitation-photo-intro-visible');
+        photoObserver.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.24,
+      rootMargin: '0px 0px -6% 0px',
+    }
+  );
+
+  photoContainers.forEach((container) => {
+    photoObserver.observe(container);
+  });
+})();
+
+(() => {
+  const timingSection = document.querySelector('#timing-section');
+
+  if (!(timingSection instanceof HTMLElement)) {
+    return;
+  }
+
+  timingSection.classList.add('timing-intro-enabled');
+
+  const revealTiming = () => {
+    timingSection.classList.add('timing-intro-visible');
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    revealTiming();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) {
+        return;
+      }
+
+      revealTiming();
+      observer.disconnect();
+    },
+    {
+      threshold: 0.18,
+      rootMargin: '0px 0px -6% 0px',
+    }
+  );
+
+  observer.observe(timingSection);
+})();
+
+(() => {
+  const storySection = document.querySelector('#story-section');
+
+  if (!(storySection instanceof HTMLElement)) {
+    return;
+  }
+
+  storySection.classList.add('story-intro-enabled');
+
+  storySection.querySelectorAll('[data-src*="story_media_left_center_image.svg"]').forEach((decorSvg) => {
+    const decorContainer = decorSvg.closest('.absolute-container');
+
+    if (!(decorContainer instanceof HTMLElement)) {
+      return;
+    }
+
+    decorContainer.classList.add('story-side-decor');
+
+    const decorStyle = decorContainer.getAttribute('style') || '';
+
+    if (decorStyle.includes('left:')) {
+      decorContainer.classList.add('story-side-decor--left');
+    }
+
+    if (decorStyle.includes('right:')) {
+      decorContainer.classList.add('story-side-decor--right');
+    }
+  });
+
+  const revealStory = () => {
+    storySection.classList.add('story-intro-visible');
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    revealStory();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) {
+        return;
+      }
+
+      revealStory();
+      observer.disconnect();
+    },
+    {
+      threshold: 0.18,
+      rootMargin: '0px 0px -6% 0px',
+    }
+  );
+
+  observer.observe(storySection);
+})();
+
+(() => {
+  const mapsSection = document.querySelector('#maps-section');
+
+  if (!(mapsSection instanceof HTMLElement)) {
+    return;
+  }
+
+  const textPanel = mapsSection.querySelector(':scope > .flex-box > .container:first-child > .container');
+  const sourceDecor = mapsSection.querySelector('[data-src*="maps_media_top_right_image.svg"]');
+
+  if (!(textPanel instanceof HTMLElement) || !(sourceDecor instanceof SVGElement)) {
+    return;
+  }
+
+  const decor = sourceDecor.cloneNode(true);
+
+  if (!(decor instanceof SVGElement)) {
+    return;
+  }
+
+  decor.classList.add('maps-section-decor-svg');
+  decor.setAttribute('aria-hidden', 'true');
+  decor.removeAttribute('data-aos');
+  decor.removeAttribute('data-aos-anchor');
+  decor.style.color = 'rgba(241, 243, 241, 0.2)';
+
+  textPanel.prepend(decor);
+})();
+
+(() => {
+  const countdownSection = document.querySelector('#countdown-section');
+
+  if (!(countdownSection instanceof HTMLElement)) {
+    return;
+  }
+
+  countdownSection.classList.add('countdown-intro-enabled');
+
+  const decorBoxes = Array.from(countdownSection.querySelectorAll('[data-src*="countdown_media_bottom_center_image.svg"]'))
+    .map((decorSvg) => decorSvg.closest('.box'))
+    .filter((decorBox) => decorBox instanceof HTMLElement);
+
+  decorBoxes.forEach((decorBox, index) => {
+    decorBox.classList.add('countdown-decor-intro');
+    decorBox.classList.add(index === 0 ? 'countdown-decor-intro--top' : 'countdown-decor-intro--bottom');
+  });
+
+  const revealCountdown = () => {
+    countdownSection.classList.add('countdown-intro-visible');
+  };
+
+  const revealDecor = (decorBox) => {
+    decorBox.classList.add('countdown-decor-intro-visible');
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    revealCountdown();
+    decorBoxes.forEach(revealDecor);
+    return;
+  }
+
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  if (isMobile) {
+    const decorObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) {
+            return;
+          }
+
+          revealDecor(entry.target);
+          decorObserver.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.28,
+        rootMargin: '0px 0px -16% 0px',
+      }
+    );
+
+    decorBoxes.forEach((decorBox) => decorObserver.observe(decorBox));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) {
+        return;
+      }
+
+      revealCountdown();
+      decorBoxes.forEach(revealDecor);
+      observer.disconnect();
+    },
+    {
+      threshold: 0.18,
+      rootMargin: '0px 0px -6% 0px',
+    }
+  );
+
+  observer.observe(countdownSection);
 })();
 
 (() => {
@@ -229,6 +515,7 @@
   }
 
   let previouslyFocused = null;
+  let successNoticeTimer = 0;
 
   const modal = document.createElement('div');
   modal.className = 'rsvp-modal';
@@ -304,8 +591,30 @@
     message.dataset.type = type;
   };
 
+  const showSuccessNotice = (text) => {
+    window.clearTimeout(successNoticeTimer);
+
+    let notice = document.querySelector('.rsvp-success-notice');
+
+    if (!(notice instanceof HTMLElement)) {
+      notice = document.createElement('div');
+      notice.className = 'rsvp-success-notice';
+      notice.setAttribute('role', 'status');
+      notice.setAttribute('aria-live', 'polite');
+      document.body.append(notice);
+    }
+
+    notice.textContent = text;
+    notice.classList.add('is-visible');
+
+    successNoticeTimer = window.setTimeout(() => {
+      notice.classList.remove('is-visible');
+    }, 3200);
+  };
+
   const openModal = () => {
     previouslyFocused = document.activeElement;
+    submitButton.disabled = false;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('rsvp-modal-open');
@@ -380,6 +689,8 @@
     submitButton.disabled = true;
     setMessage('Отправляем...', 'pending');
 
+    let isSubmitted = false;
+
     try {
       await fetch(googleScriptUrl, {
         method: 'POST',
@@ -388,11 +699,19 @@
       });
 
       form.reset();
-      setMessage('Спасибо, ответ отправлен.', 'success');
+      setMessage('Все отправлено.', 'success');
+      isSubmitted = true;
+
+      window.setTimeout(() => {
+        closeModal();
+        showSuccessNotice('Все отправлено');
+      }, 650);
     } catch {
       setMessage('Не получилось отправить. Попробуйте еще раз.', 'error');
     } finally {
-      submitButton.disabled = false;
+      if (!isSubmitted) {
+        submitButton.disabled = false;
+      }
     }
   });
 })();
