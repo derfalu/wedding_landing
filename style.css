@@ -3664,11 +3664,13 @@ body.cover-intro-ready #cover-section .cover-hero > .base-button {
 }
 
 #invitation-section > .flex-box.row > .container:last-child > .flex-box.column > .text:first-child p {
+  display: inline-block !important;
   font-family: var(--font-ceremony) !important;
   font-weight: 400 !important;
   font-style: normal !important;
   font-size: 82px !important;
-  line-height: 1 !important;
+  line-height: 1.18 !important;
+  padding: 8px 18px 10px !important;
   text-transform: none !important;
   letter-spacing: 0 !important;
 }
@@ -4128,7 +4130,7 @@ body.cover-intro-ready #cover-section .cover-hero > .base-button {
 
   #invitation-section > .flex-box.row > .container:last-child > .flex-box.column > .text:first-child p {
     font-size: 58px !important;
-    line-height: 1 !important;
+    line-height: 1.2 !important;
   }
 
   #invitation-section > .flex-box.row .text[style*="display: flex"] {
