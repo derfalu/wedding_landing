@@ -2154,6 +2154,7 @@ input {
   --font-heading: "Cormorant Garamond", Forum, serif;
   --font-body: "Manrope", Roboto, sans-serif;
   --font-script: "Marck Script", "Cormorant Garamond", cursive;
+  --font-ceremony: "Great Vibes", cursive;
 }
 
 body,
@@ -2176,7 +2177,7 @@ body,
 
 #cover-section .cover-names,
 #cover-section .cover-date {
-  font-family: var(--font-script) !important;
+  font-family: var(--font-ceremony) !important;
 }
 
 #faq-section .accordeon__header p,
@@ -2637,9 +2638,11 @@ body.site-nav-open {
 
 #cover-section .cover-names {
   margin: 0;
-  font-family: var(--font-script) !important;
-  font-size: clamp(64px, 9vw, 108px) !important;
-  line-height: 0.96 !important;
+  font-family: var(--font-ceremony) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-size: 108px !important;
+  line-height: 1 !important;
   letter-spacing: 0 !important;
   text-indent: 0 !important;
   text-transform: none !important;
@@ -2648,12 +2651,24 @@ body.site-nav-open {
 
 #cover-section .cover-date {
   margin: 0;
-  font-family: var(--font-script) !important;
-  font-size: clamp(40px, 5vw, 62px) !important;
+  font-family: var(--font-ceremony) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-size: 58px !important;
   line-height: 1 !important;
   letter-spacing: 0 !important;
   text-indent: 0 !important;
   text-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+}
+
+#cover-section .cover-hero > .base-button {
+  opacity: 0.9 !important;
+  --bg-idle: rgba(248, 244, 236, 0.12) !important;
+  --bc-idle: rgba(248, 244, 236, 0.74) !important;
+}
+
+#cover-section .cover-hero > .base-button p {
+  color: rgba(248, 244, 236, 0.96) !important;
 }
 
 @media (max-width: 768px) {
@@ -2760,11 +2775,11 @@ body.site-nav-open {
   }
 
   #cover-section .cover-names {
-    font-size: clamp(52px, 15vw, 78px) !important;
+    font-size: 72px !important;
   }
 
   #cover-section .cover-date {
-    font-size: clamp(34px, 10vw, 52px) !important;
+    font-size: 46px !important;
   }
 }
 
