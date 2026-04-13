@@ -549,7 +549,7 @@
           <textarea name="foodPreferences" rows="3"></textarea>
         </label>
         <label class="rsvp-modal__field">
-          <span>Количество пьющих</span>
+          <span>Количество пьющих спиртные напитки</span>
           <input name="drinkers" type="number" min="0" step="1" inputmode="numeric" required>
         </label>
         <label class="rsvp-modal__field">
