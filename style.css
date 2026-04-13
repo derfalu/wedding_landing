@@ -3474,6 +3474,16 @@ body.site-nav-open {
   align-items: center;
 }
 
+#invitation-section > .flex-box.row > .container:last-child > .flex-box.column > .text:first-child p {
+  font-family: var(--font-ceremony) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-size: 82px !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
 #invitation-section > .absolute-container[style*="top: 128px"][style*="left: 32px"] {
   top: 20px !important;
   left: 24px !important;
@@ -3803,8 +3813,8 @@ body.site-nav-open {
   }
 
   #invitation-section > .flex-box.row > .container:last-child > .flex-box.column > .text:first-child p {
-    font-size: 46px !important;
-    line-height: 60px !important;
+    font-size: 58px !important;
+    line-height: 1 !important;
   }
 
   #invitation-section > .flex-box.row .text[style*="display: flex"] {
