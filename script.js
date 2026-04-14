@@ -549,11 +549,11 @@
           <textarea name="foodPreferences" rows="3"></textarea>
         </label>
         <label class="rsvp-modal__field">
-          <span>Количество пьющих спиртные напитки</span>
+          <span>Количество гостей, употребляющих алкоголь</span>
           <input name="drinkers" type="number" min="0" step="1" inputmode="numeric" required>
         </label>
         <label class="rsvp-modal__field">
-          <span>Учитывать ли вас для поездки на природу 28.06</span>
+          <span>Будете ли с нами на природе 28.06?</span>
           <select name="natureTrip" required>
             <option value="" selected disabled>Выберите вариант</option>
             <option value="Да">Да</option>
